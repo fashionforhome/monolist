@@ -1,0 +1,3 @@
+monolist_watcher_homepage:
+    path:     monolist/watcher/hello/{name}
+    defaults: { _controller: MonolistWatcherBundle:Default:index }

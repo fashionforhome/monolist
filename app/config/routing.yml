@@ -1,0 +1,4 @@
+monolist_watcher:
+    resource: "@MonolistWatcherBundle/Resources/config/routing.yml"
+    prefix:   /
+
