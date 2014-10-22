@@ -1,3 +1,13 @@
-monolist_watcher_homepage:
-    path:     monolist/watcher/hello/{name}
-    defaults: { _controller: MonolistWatcherBundle:Default:index }
+#monolist_watcher_homepage:
+#    path:     /hello/{name}
+#    defaults: { _controller: MonolistWatcherBundle:Default:index }
+
+_default:
+    resource: "@MonolistWatcherBundle/Controller/DefaultController.php"
+    type:     annotation
+    prefix:   /default
+
+#_monolist:
+#    resource: "@MonolistBundle/Controller/DefaultController.php"
+#    type:     annotation
+#    prefix:   /monolist
