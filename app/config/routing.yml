@@ -1,7 +1,8 @@
 _monolist_watcher:
     resource: "@MonolistWatcherBundle/Resources/config/routing.yml"
 
-#monolist_watcher:
-#    resource: "@MonolistWatcherBundle/Resources/config/routing.yml"
-#    prefix:   /monolist
+fos_user:
+    resource: "@FOSUserBundle/Resources/config/routing/all.xml"
+#    prefix:   /watcher
+
 

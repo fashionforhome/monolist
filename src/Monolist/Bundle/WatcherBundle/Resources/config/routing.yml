@@ -2,10 +2,19 @@
 #    path:     /hello/{name}
 #    defaults: { _controller: MonolistWatcherBundle:Default:index }
 
+homepage:
+    path:     /
+    defaults: { _controller: FOSUserBundle:Security:login }
+
 _default:
     resource: "@MonolistWatcherBundle/Controller/DefaultController.php"
     type:     annotation
     prefix:   /default
+
+_overview:
+    resource: "@MonolistWatcherBundle/Controller/OverviewController.php"
+    type:     annotation
+    prefix:   /overview
 
 #_monolist:
 #    resource: "@MonolistBundle/Controller/DefaultController.php"

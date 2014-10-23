@@ -2,13 +2,14 @@
 // src/Monolist/Bundle/WatcherBundle/Entity/WatcherUser.php
 namespace Monolist\Bundle\WatcherBundle\Entity;
 
+use FOS\UserBundle\Model\User as BaseUser;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity
  * @ORM\Table(name="T_watcher_user")
  */
-class WatcherUser
+class WatcherUser extends BaseUser
 {
 	/**
 	 * @ORM\Column(type="integer")
@@ -17,69 +18,9 @@ class WatcherUser
 	 */
 	protected $id;
 
-	/**
-	 * @ORM\Column(type="string", length=255, unique=true)
-	 */
-	protected $name;
-
-	/**
-	 * @ORM\Column(type="string", length=255)
-	 */
-	protected $password_hash;
-
-	/**
-	 * Get id
-	 *
-	 * @return integer
-	 */
-	public function getId()
+	public function __construct()
 	{
-		return $this->id;
-	}
-
-	/**
-	 * Set name
-	 *
-	 * @param string $name
-	 * @return WatcherUser
-	 */
-	public function setName($name)
-	{
-		$this->name = $name;
-
-		return $this;
-	}
-
-	/**
-	 * Get name
-	 *
-	 * @return string
-	 */
-	public function getName()
-	{
-		return $this->name;
-	}
-
-	/**
-	 * Set password_hash
-	 *
-	 * @param string $passwordHash
-	 * @return WatcherUser
-	 */
-	public function setPasswordHash($passwordHash)
-	{
-		$this->password_hash = $passwordHash;
-
-		return $this;
-	}
-
-	/**
-	 * Get password_hash
-	 *
-	 * @return string
-	 */
-	public function getPasswordHash()
-	{
-		return $this->password_hash;
+		parent::__construct();
+		// your own logic
 	}
 }
