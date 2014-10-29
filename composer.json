@@ -1,8 +1,8 @@
 {
-    "name": "symfony/framework-standard-edition",
-    "license": "MIT",
+    "name": "symfony/monolist",
+    "license": "",
     "type": "project",
-    "description": "The \"Symfony Standard Edition\" distribution",
+    "description": "The \"Symfony Standard Edition\" distribution extends Monolist",
     "autoload": {
         "psr-0": { "": "src/", "SymfonyStandard": "app/" }
     },
@@ -19,7 +19,7 @@
         "sensio/framework-extra-bundle": "~3.0",
         "incenteev/composer-parameter-handler": "~2.0",
         "friendsofsymfony/user-bundle": "~2.0@dev",
-	    "aws/aws-sdk-php": "2.*"
+        "aws/aws-sdk-php": "2.*"
     },
     "require-dev": {
         "sensio/generator-bundle": "~2.3"
