@@ -14,7 +14,7 @@ use Symfony\Component\Finder\Finder;
 use Aws\CloudWatch\CloudWatchClient;
 
 use Monolist\Bundle\WatcherBundle\Model\Services\CloudWatch\CloudWatch;
-use Monolist\Bundle\WatcherBundle\Entity\CloudWatch_UnHealthyHostCount;
+use Monolist\Bundle\WatcherBundle\Entity\CloudWatch\CloudWatchUnHealthyHostCount as TestEntity;
 
 class OverviewController extends Controller
 {
@@ -74,31 +74,30 @@ class OverviewController extends Controller
 	 */
 	public function helloAction($name)
 	{
-		$cwEnt = new CloudWatch_UnHealthyHostCount();
-		$cwEnt->setValue(0);
-		$cwEnt->setTimestamp(time());
-		$cwEnt->setIdentifier('test');
+//		$cwEnt = new TestEntity();
+//		$cwEnt->setValue(0);
+//		$cwEnt->setTimestamp(time());
+//		$cwEnt->setIdentifier('test');
+//
+//		/** @var \Doctrine\Bundle\DoctrineBundle\Registry $doct */
+//		$doct = $this->get('doctrine');
+//		$em = $doct->getManager();
+//		$em->persist($cwEnt);
+//		$em->flush();
+//		die('written in db');
 
-		/** @var \Doctrine\Bundle\DoctrineBundle\Registry $doct */
-		$doct = $this->get('doctrine');
-		$em = $doct->getManager();
-		$em->persist($cwEnt);
-		$em->flush();
-		die;
-
-
-		$cloudWatch = new CloudWatch();
-//		var_dump($cloudWatch->getDir());die;
+		$cloudWatchService = new CloudWatch();
+		var_dump($cloudWatchService->getName());die;
 
 		$kernel = $this->get('kernel');
 //		$path = $kernel->locateResource('@MonolistWatcherBundle/Model/Services/CloudWatch/Metrics/SingleMetric/config/metrics.yml');
-		$path = $cloudWatch->getDir() . '/Metrics/SingleMetric/config/metrics.yml';
+		$path = $cloudWatchService->getDir() . '/Metrics/SingleMetric/config/metrics.yml';
 		$yaml = new Parser();
 		$value = $yaml->parse(file_get_contents($path));
 //		var_dump($value);
 
 		$finder = new Finder();
-		$finderPath = $cloudWatch->getSingleMetricsConfigPath();
+		$finderPath = $cloudWatchService->getSingleMetricsConfigPath();
 		$finder->files()->in($finderPath);
 		foreach ($finder as $file) {
 			// Print the absolute path

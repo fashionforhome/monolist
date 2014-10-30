@@ -13,7 +13,7 @@ use Aws\CloudWatch\CloudWatchClient;
  *
  * @package Monolist\Bundle\WatcherBundle\Model\Service\CloudWatch\Metrics\SingleMetric\Requestor
  */
-class AwsUnHealthyHostCount implements RequestorInterface {
+class UnHealthyHostCountRequestor implements RequestorInterface {
 
 	/**
 	 * @return int

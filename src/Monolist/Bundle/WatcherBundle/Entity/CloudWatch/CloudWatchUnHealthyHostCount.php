@@ -1,12 +1,12 @@
 <?php
-namespace Monolist\Bundle\WatcherBundle\Entity;
+namespace Monolist\Bundle\WatcherBundle\Entity\CloudWatch;
 
 use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity
  */
-class Aws_UnHealthyHostCount
+class CloudWatchUnHealthyHostCount
 {
 	/**
 	 * @ORM\Column(type="integer")

@@ -1,16 +1,16 @@
 <?php
 
-namespace Monolist\Bundle\WatcherBundle\Model\Collector;
+namespace Monolist\Bundle\WatcherBundle\Model\Collector\Metrics\SingleMetric;
 
-use Monolist\Bundle\WatcherBundle\Model\Requestor\RequestorInterface;
+use Monolist\Bundle\WatcherBundle\Model\Requestor\Metrics\SingleMetric\RequestorInterface;
 use Symfony\Component\Config\Definition\Exception\Exception;
 
 /**
- * Class SingleValueCollector
+ * Class SingleMetricCollector
  *
  * @package Monolist\Bundle\WatcherBundle\Model\Collector
  */
-class SingleValueCollector implements CollectorAccessInterface
+class SingleMetricCollector implements CollectorAccessInterface
 {
 	/**
 	 * @var CollectEntityHandlerInterface

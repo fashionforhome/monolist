@@ -8,6 +8,9 @@
 
 namespace Monolist\Bundle\WatcherBundle\Model\Services;
 
+//for config load
+use Symfony\Component\Yaml\Parser;
+use Symfony\Component\Finder\Finder;
 
 abstract class ServiceAbstract {
 
@@ -29,11 +32,65 @@ abstract class ServiceAbstract {
 	protected $config;
 
 	/**
+	 * Class constructor
+	 */
+	public function __construct()
+	{
+		$this->init();
+	}
+
+	/**
+	 * This init is called by construction.
+	 */
+	public function init()
+	{
+		$this->loadConfig();
+	}
+
+	/**
+	 * Load and set the config for the service.
+	 *
+	 * @return void
+	 */
+	protected function loadConfig()
+	{
+		$defaultConfig = array();
+
+		$yamlParser = new Parser();
+		$configPath = $this->getConfigPath();
+
+		if (file_exists($configPath) === false) {
+			$this->setConfig($defaultConfig);
+			return;
+		}
+
+		$config = $yamlParser->parse(file_get_contents($configPath));
+
+		$this->setConfig((is_array($config)) ? $config : $defaultConfig);
+	}
+
+	/**
 	 * @return string
 	 */
-	public function getDir()
+	public function getConfigPath()
 	{
-		return __DIR__;
+		return $this->getDir() . self::CONFIG_FILE_PATH;
+	}
+
+	/**
+	 * @return string
+	 */
+	public abstract  function getDir();
+
+	/**
+	 * Returns the name of the service.
+	 *
+	 * @return string
+	 */
+	public function getName()
+	{
+		$reflection = new \ReflectionClass($this);
+		return $reflection->getShortName(); //also nice but slower solution is "basename(get_class($object));"
 	}
 
 	/**
@@ -47,10 +104,47 @@ abstract class ServiceAbstract {
 	}
 
 	/**
+	 * Return is the service enabled.
+	 *
+	 * Per default it's false.
+	 *
+	 * Can be activated in the service config.yml
+	 * e.g. Services/CloudWatch/config/config.yml
+	 * enabled: true
+	 *
 	 * @return bool
 	 */
-	public static function isEnabled()
+	public function isEnabled()
 	{
-		return true;    //todo
+		$isEnabled = false;
+		$config = $this->getConfig();
+
+		if (isset($config['enabled'])) {
+			$isEnabled = filter_var($config['enabled'], FILTER_VALIDATE_BOOLEAN);
+		}
+
+		return $isEnabled;
+	}
+
+	/**
+	 * #####################
+	 * Setter/Getter area
+	 * #####################
+	 */
+
+	/**
+	 * @param array $config
+	 */
+	public function setConfig(array $config)
+	{
+		$this->config = $config;
+	}
+
+	/**
+	 * @return array
+	 */
+	public function getConfig()
+	{
+		return $this->config;
 	}
 }

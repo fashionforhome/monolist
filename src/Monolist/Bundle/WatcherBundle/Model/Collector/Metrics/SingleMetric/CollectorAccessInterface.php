@@ -1,6 +1,6 @@
 <?php
 
-namespace Monolist\Bundle\WatcherBundle\Model\Collector;
+namespace Monolist\Bundle\WatcherBundle\Model\Collector\Metrics\SingleMetric;
 
 /**
  * Class CollectorAccessInterface
