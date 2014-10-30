@@ -1,0 +1,8 @@
+UnHealthyHostCount:
+    requestor_class: Monolist\Bundle\WatcherBundle\Model\Requestor\AwsUnHealthyHostCount
+    entity_class: Monolist\Bundle\WatcherBundle\Entity\CloudWatch_UnHealthyHostCount
+    identifier:
+        - f
+        - s
+        - t
+        - releasecandidate

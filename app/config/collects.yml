@@ -1,0 +1,9 @@
+parameters:
+    collects:
+        Aws_UnHealthyHostCount:
+            requestor_class: Monolist\Bundle\WatcherBundle\Model\Requestor\AwsUnHealthyHostCount
+            identifier:
+                - f
+                - s
+                - t
+                - releasecandidate

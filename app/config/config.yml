@@ -1,6 +1,8 @@
 imports:
     - { resource: parameters.yml }
     - { resource: security.yml }
+    - { resource: collects.yml } #monolist_watcher collects config
+    - { resource: aws_keys.yml } #for security not in repo
 
 framework:
     #esi:             ~
@@ -75,3 +77,5 @@ fos_user:
     db_driver: orm # other valid values are 'mongodb', 'couchdb' and 'propel'
     firewall_name: main
     user_class: Monolist\Bundle\WatcherBundle\Entity\WatcherUser
+
+parameters:
