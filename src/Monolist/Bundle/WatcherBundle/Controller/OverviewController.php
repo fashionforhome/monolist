@@ -74,41 +74,12 @@ class OverviewController extends Controller
 	 */
 	public function helloAction($name)
 	{
-//		$cwEnt = new TestEntity();
-//		$cwEnt->setValue(0);
-//		$cwEnt->setTimestamp(time());
-//		$cwEnt->setIdentifier('test');
-//
-//		/** @var \Doctrine\Bundle\DoctrineBundle\Registry $doct */
-//		$doct = $this->get('doctrine');
-//		$em = $doct->getManager();
-//		$em->persist($cwEnt);
-//		$em->flush();
-//		die('written in db');
 
-		$cloudWatchService = new CloudWatch();
-		var_dump($cloudWatchService->getName());die;
+		$cloudWatchService = new CloudWatch( array('container' => $this->container) );
+		$cloudWatchService->collectAndSaveSingleMetrics();
 
-		$kernel = $this->get('kernel');
-//		$path = $kernel->locateResource('@MonolistWatcherBundle/Model/Services/CloudWatch/Metrics/SingleMetric/config/metrics.yml');
-		$path = $cloudWatchService->getDir() . '/Metrics/SingleMetric/config/metrics.yml';
-		$yaml = new Parser();
-		$value = $yaml->parse(file_get_contents($path));
-//		var_dump($value);
+		var_dump('All is save');
 
-		$finder = new Finder();
-		$finderPath = $cloudWatchService->getSingleMetricsConfigPath();
-		$finder->files()->in($finderPath);
-		foreach ($finder as $file) {
-			// Print the absolute path
-			print $file->getRealpath()."\n";
-
-			// Print the relative path to the file, omitting the filename
-			print $file->getRelativePath()."\n";
-
-			// Print the relative path to the file
-			print $file->getRelativePathname()."\n";
-		}
 		die;
 
 		return $this->render('MonolistWatcherBundle:Default:index.html.twig', array('name' => $name));

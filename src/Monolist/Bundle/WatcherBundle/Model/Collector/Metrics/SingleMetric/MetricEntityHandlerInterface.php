@@ -7,7 +7,7 @@ namespace Monolist\Bundle\WatcherBundle\Model\Collector\Metrics\SingleMetric;
  *
  * @package Monolist\Bundle\WatcherBundle\Model\Collector
  */
-interface CollectEntityHandlerInterface {
+interface MetricEntityHandlerInterface {
 
 	/**
 	 * @param CollectorAccessInterface $collectorAccessInterface

@@ -12,7 +12,7 @@ interface CollectorAccessInterface {
 	/**
 	 * @return array
 	 */
-	public function  getCollect();
+	public function  getMetric();
 
 
 } 

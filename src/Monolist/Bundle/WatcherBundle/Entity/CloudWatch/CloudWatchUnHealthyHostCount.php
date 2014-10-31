@@ -3,10 +3,12 @@ namespace Monolist\Bundle\WatcherBundle\Entity\CloudWatch;
 
 use Doctrine\ORM\Mapping as ORM;
 
+use Monolist\Bundle\WatcherBundle\Entity\SingleMetricEntityAbstract;
+
 /**
  * @ORM\Entity
  */
-class CloudWatchUnHealthyHostCount
+class CloudWatchUnHealthyHostCount extends SingleMetricEntityAbstract
 {
 	/**
 	 * @ORM\Column(type="integer")
@@ -30,12 +32,6 @@ class CloudWatchUnHealthyHostCount
 	 */
 	protected $value;
 
-	public function __construct()
-	{
-		//parent::__construct();
-		// your own logic
-	}
-
     /**
      * Get id
      *
@@ -50,7 +46,7 @@ class CloudWatchUnHealthyHostCount
      * Set identifier
      *
      * @param string $identifier
-     * @return DefaultCollect
+     * @return $this
      */
     public function setIdentifier($identifier)
     {
@@ -69,12 +65,12 @@ class CloudWatchUnHealthyHostCount
         return $this->identifier;
     }
 
-    /**
-     * Set timestamp
-     *
-     * @param integer $timestamp
-     * @return DefaultCollect
-     */
+	/**
+	 * Set timestamp
+	 *
+	 * @param integer $timestamp
+	 * @return $this
+	 */
     public function setTimestamp($timestamp)
     {
         $this->timestamp = $timestamp;
@@ -96,7 +92,7 @@ class CloudWatchUnHealthyHostCount
      * Set value
      *
      * @param integer $value
-     * @return DefaultCollect
+     * @return this
      */
     public function setValue($value)
     {

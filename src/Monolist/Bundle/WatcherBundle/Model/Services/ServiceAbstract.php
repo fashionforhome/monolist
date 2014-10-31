@@ -12,6 +12,8 @@ namespace Monolist\Bundle\WatcherBundle\Model\Services;
 use Symfony\Component\Yaml\Parser;
 use Symfony\Component\Finder\Finder;
 
+use Monolist\Bundle\WatcherBundle\Model\Collector\Metrics\SingleMetric\SingleMetricCollector;
+
 abstract class ServiceAbstract {
 
 	/**
@@ -32,18 +34,29 @@ abstract class ServiceAbstract {
 	protected $config;
 
 	/**
-	 * Class constructor
+	 * Meta container
+	 * @var
 	 */
-	public function __construct()
+	protected $container;
+
+	/**
+	 * Class constructor
+	 *
+	 * @param array $arguments
+	 */
+	public function __construct($arguments)
 	{
-		$this->init();
+		$this->init($arguments);
 	}
 
 	/**
 	 * This init is called by construction.
+	 *
+	 * @param $arguments
 	 */
-	public function init()
+	public function init($arguments)
 	{
+		$this->setContainer($arguments['container']);
 		$this->loadConfig();
 	}
 
@@ -127,6 +140,75 @@ abstract class ServiceAbstract {
 	}
 
 	/**
+	 * Returns all single metric collectors
+	 *
+	 * @return array
+	 */
+	public function getSingleMetricCollectors()
+	{
+		$singleMetricMergedConfigs = $this->getSingleMetricMergedConfigs();
+		$singleMetricCollectors = array();
+
+		foreach($singleMetricMergedConfigs as $singleMetricConfig) {
+			foreach ($singleMetricConfig['identifier'] as $singleIdentifier) {
+				$collectorConfig = array();
+
+				//set the requestor
+				$requestorNamespace = __NAMESPACE__ . $singleMetricConfig['requestor_class'];
+				$collectorConfig['requestor'] = new $requestorNamespace;
+
+				//set metric identifier
+				$collectorConfig['identifier'] = $singleIdentifier;
+
+				//set dbEntity
+				$dbEntityNamespace = $singleMetricConfig['entity_class'];
+				/** @var \Monolist\Bundle\WatcherBundle\Entity\SingleMetricEntityAbstract $dbEntity */
+				$dbEntity = new $dbEntityNamespace;
+				$dbEntity->setContainer($this->getContainer());
+				$collectorConfig['dbEntity'] = $dbEntity;
+
+				$singleMetricCollectors[] = new SingleMetricCollector($collectorConfig);
+			}
+
+		}
+
+		return $singleMetricCollectors;
+	}
+
+	/**
+	 * Returns the merged config of all config files.
+	 *
+	 * @return array
+	 */
+	public function getSingleMetricMergedConfigs()
+	{
+		$singleMetricsConfigPath = $this->getSingleMetricsConfigPath();
+		$yamlParser = new Parser();
+		$finder = new Finder();
+		$singleMetricsMergedConfig = array();
+
+		$finder->files()->in($singleMetricsConfigPath);
+		/** @var \Symfony\Component\Finder\SplFileInfo $file */
+		foreach ($finder as $file) {
+			$singleConfig = $yamlParser->parse(file_get_contents($file->getRealpath()));
+
+			$singleMetricsMergedConfig = array_merge($singleMetricsMergedConfig, $singleConfig);
+		}
+
+		return $singleMetricsMergedConfig;
+	}
+
+	public function collectAndSaveSingleMetrics()
+	{
+		$singleMetricCollectors = $this->getSingleMetricCollectors();
+		/** @var \Monolist\Bundle\WatcherBundle\Model\Collector\Metrics\SingleMetric\SingleMetricCollector $collector */
+		foreach ($singleMetricCollectors as $collector) {
+			$collector->collectData();
+			$collector->save();
+		}
+	}
+
+	/**
 	 * #####################
 	 * Setter/Getter area
 	 * #####################
@@ -146,5 +228,21 @@ abstract class ServiceAbstract {
 	public function getConfig()
 	{
 		return $this->config;
+	}
+
+	/**
+	 * @param $container
+	 */
+	public function setContainer($container)
+	{
+		$this->container = $container;
+	}
+
+	/**
+	 * @return mixed
+	 */
+	public function getContainer()
+	{
+		return $this->container;
 	}
 }

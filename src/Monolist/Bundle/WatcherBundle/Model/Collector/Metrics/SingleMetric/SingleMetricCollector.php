@@ -13,14 +13,14 @@ use Symfony\Component\Config\Definition\Exception\Exception;
 class SingleMetricCollector implements CollectorAccessInterface
 {
 	/**
-	 * @var CollectEntityHandlerInterface
+	 * @var MetricEntityHandlerInterface
 	 */
 	protected $dbEntity;
 
 	/**
 	 * @var array
 	 */
-	protected $collectConfig;
+	protected $metricIdentifier;
 
 	/**
 	 * @var RequestorInterface
@@ -30,7 +30,7 @@ class SingleMetricCollector implements CollectorAccessInterface
 	/**
 	 * @var int
 	 */
-	protected $collectValue;
+	protected $metricValue;
 
 	/**
 	 * @var int
@@ -44,8 +44,8 @@ class SingleMetricCollector implements CollectorAccessInterface
 	{
 		//TODO: isset and instanceof check for $data array, maybe in setter, maybe build a collectorConfig object including a validate function
 
-		$this->setValueRequestor($data['valueRequestor']);
-		$this->setCollectConfig($data['collectConfig']);
+		$this->setValueRequestor($data['requestor']);
+		$this->setMetricIdentifier($data['identifier']);
 		$this->setDbEntity($data['dbEntity']);
 	}
 
@@ -71,23 +71,22 @@ class SingleMetricCollector implements CollectorAccessInterface
 	{
 		$valueRequestor = $this->getValueRequestor();
 		$requestValue = $valueRequestor->requestValue();
-		$this->setCollectValue($requestValue);
+		$this->setMetricValue($requestValue);
 		$this->setTimestamp(time());
 	}
 
 	/**
 	 * @return array
 	 */
-	public function  getCollect()
+	public function  getMetric()
 	{
-		$collect = array();
-		$collectConfig = $this->getCollectConfig();
+		$metric = array();
 
-		$collect['identifier'] = $collectConfig['identifier'];
-		$collect['timestamp'] = $this->getTimestamp();
-		$collect['value'] = $this->getCollectValue();
+		$metric['identifier'] = $this->getMetricIdentifier();
+		$metric['timestamp'] = $this->getTimestamp();
+		$metric['value'] = $this->getMetricValue();
 
-		return $collect;
+		return $metric;
 	}
 
 	//#############################################################
@@ -99,15 +98,15 @@ class SingleMetricCollector implements CollectorAccessInterface
 	//#############################################################
 
 	/**
-	 * @param CollectEntityHandlerInterface $dbEntity
+	 * @param MetricEntityHandlerInterface $dbEntity
 	 */
-	public function setDbEntity(CollectEntityHandlerInterface $dbEntity)
+	public function setDbEntity(MetricEntityHandlerInterface $dbEntity)
 	{
 		$this->dbEntity = $dbEntity;
 	}
 
 	/**
-	 * @return CollectEntityHandlerInterface
+	 * @return MetricEntityHandlerInterface
 	 */
 	public function getDbEntity()
 	{
@@ -115,35 +114,35 @@ class SingleMetricCollector implements CollectorAccessInterface
 	}
 
 	/**
-	 * @param array $config
+	 * @param string $identifier
 	 */
-	public function setCollectConfig(array $config)
+	public function setMetricIdentifier($identifier)
 	{
-		$this->collectConfig = $config;
+		$this->metricIdentifier = $identifier;
 	}
 
 	/**
 	 * @return array
 	 */
-	public function getCollectConfig()
+	public function getMetricIdentifier()
 	{
-		return $this->collectConfig;
+		return $this->metricIdentifier;
 	}
 
 	/**
 	 * @param int $value
 	 */
-	public function setCollectValue($value)
+	public function setMetricValue($value)
 	{
-		$this->collectValue = $value;
+		$this->metricValue = $value;
 	}
 
 	/**
 	 * @return int
 	 */
-	public function getCollectValue()
+	public function getMetricValue()
 	{
-		return $this->collectValue;
+		return $this->metricValue;
 	}
 
 	/**
