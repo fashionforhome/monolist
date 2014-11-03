@@ -2,6 +2,7 @@
 namespace Monolist\Bundle\WatcherBundle\Entity;
 
 //use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Proxy\Exception\InvalidArgumentException;
 use Monolist\Bundle\WatcherBundle\MonolistWatcherBundle;
 use Monolist\Bundle\WatcherBundle\Model\Collector\Metrics\SingleMetric\CollectorAccessInterface;
 use Monolist\Bundle\WatcherBundle\Model\Collector\Metrics\SingleMetric\MetricEntityHandlerInterface;
@@ -108,6 +109,9 @@ abstract class SingleMetricEntityAbstract implements MetricEntityHandlerInterfac
 	 */
 	public function setContainer($container)
 	{
+		if (empty($container)) {
+			throw new InvalidArgumentException('No container was passed.');
+		}
 		$this->container = $container;
 	}
 
@@ -143,8 +147,9 @@ abstract class SingleMetricEntityAbstract implements MetricEntityHandlerInterfac
 	 */
 	public function save()
 	{
+		$container = MonolistWatcherBundle::getContainer();
 		/** @var \Doctrine\Bundle\DoctrineBundle\Registry $doct */
-		$doct = $this->getContainer()->get('doctrine'); //$this->container->get('doctrine')
+		$doct = $container->get('doctrine');
 		$em = $doct->getManager();
 		$em->persist($this);
 		$em->flush();

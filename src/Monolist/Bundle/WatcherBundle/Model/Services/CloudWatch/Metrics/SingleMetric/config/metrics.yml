@@ -6,3 +6,4 @@ UnHealthyHostCount:
         - s
         - t
         - releasecandidate
+    displaySkala: 3 #means between -3 and +3

@@ -43,6 +43,9 @@ class SingleMetricCollector implements CollectorAccessInterface
 	public function __construct(array $data)
 	{
 		//TODO: isset and instanceof check for $data array, maybe in setter, maybe build a collectorConfig object including a validate function
+		if (empty($data)) {
+			return;
+		}
 
 		$this->setValueRequestor($data['requestor']);
 		$this->setMetricIdentifier($data['identifier']);
@@ -70,7 +73,7 @@ class SingleMetricCollector implements CollectorAccessInterface
 	public function collectData()
 	{
 		$valueRequestor = $this->getValueRequestor();
-		$requestValue = $valueRequestor->requestValue();
+		$requestValue = $valueRequestor->requestValue($this);
 		$this->setMetricValue($requestValue);
 		$this->setTimestamp(time());
 	}

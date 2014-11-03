@@ -1,0 +1,9 @@
+MyCustomReportGroupName:
+    - CloudWatchUnHealthyHostCount #full metric name (serviceName + metricName)
+    - CloudWatchUnHealthyHostCount
+    - CloudWatchUnHealthyHostCount
+
+MyOtherReportGroupName:
+    - CloudWatchUnHealthyHostCount #full metric name (serviceName + metricName)
+    - CloudWatchUnHealthyHostCount
+    - CloudWatchUnHealthyHostCount

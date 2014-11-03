@@ -28,7 +28,7 @@ class CloudWatchUnHealthyHostCount extends SingleMetricEntityAbstract
 	protected $timestamp;
 
 	/**
-	 * @ORM\Column(type="integer")
+	 * @ORM\Column(type="integer", nullable=true)
 	 */
 	protected $value;
 

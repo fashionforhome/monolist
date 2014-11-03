@@ -44,7 +44,7 @@ abstract class ServiceAbstract {
 	 *
 	 * @param array $arguments
 	 */
-	public function __construct($arguments)
+	public function __construct($arguments = array())
 	{
 		$this->init($arguments);
 	}
@@ -54,9 +54,12 @@ abstract class ServiceAbstract {
 	 *
 	 * @param $arguments
 	 */
-	public function init($arguments)
+	public function init($arguments = array())
 	{
-		$this->setContainer($arguments['container']);
+		if (empty($arguments) === false) {
+			$this->setContainer($arguments['container']);
+		}
+
 		$this->loadConfig();
 	}
 

@@ -8,11 +8,12 @@
 
 namespace Monolist\Bundle\WatcherBundle\Model\Requestor\Metrics\SingleMetric;
 
+use Monolist\Bundle\WatcherBundle\Model\Collector\Metrics\SingleMetric\CollectorAccessInterface;
 
 interface RequestorInterface {
 
 	/**
 	 * @return int
 	 */
-	public function requestValue();
+	public function requestValue(CollectorAccessInterface $collector);
 } 

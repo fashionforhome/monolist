@@ -16,6 +16,16 @@ _overview:
     type:     annotation
     prefix:   /overview
 
+_show_chart:
+    resource: "@MonolistWatcherBundle/Controller/ShowChartController.php"
+    type:     annotation
+    prefix:   /show/chart
+
+_api:
+    resource: "@MonolistWatcherBundle/Controller/ApiController.php"
+    type:     annotation
+    prefix:   /api
+
 #_monolist:
 #    resource: "@MonolistBundle/Controller/DefaultController.php"
 #    type:     annotation
