@@ -10,7 +10,6 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 //for config load
 use Symfony\Component\Yaml\Parser;
 use Symfony\Component\Finder\Finder;
-
 use Aws\CloudWatch\CloudWatchClient;
 
 use Monolist\Bundle\WatcherBundle\Model\Services\CloudWatch\CloudWatch;

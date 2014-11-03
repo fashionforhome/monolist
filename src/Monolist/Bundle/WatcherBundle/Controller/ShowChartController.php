@@ -6,6 +6,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use Monolist\Bundle\WatcherBundle\Model\Services\Loader;
 
 class ShowChartController extends Controller
 {
@@ -39,9 +40,16 @@ class ShowChartController extends Controller
 	/**
 	 * @Route("/group/{groupName}", name="_show_chart_group")
 	 * @Template()
+	 * @param $groupName
+	 * @return \Symfony\Component\HttpFoundation\Response
 	 */
 	public function groupAction($groupName)
 	{
-		return $this->render('MonolistWatcherBundle:Default:index.html.twig', array('name' => $groupName));
+		$groupMetrics = array();
+		$loader = new Loader();
+		$groupConfig = $loader->getReportGroupConfig();
+		$groupMetrics = $groupConfig[$groupName];
+
+		return $this->render('MonolistWatcherBundle:Default:group.html.php', array('groupName' => $groupName, 'groupMetrics' => $groupMetrics));
 	}
 }

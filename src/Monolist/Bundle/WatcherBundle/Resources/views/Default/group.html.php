@@ -7,6 +7,7 @@
 	<link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet">
 	<script type="text/javascript" src="https://code.jquery.com/jquery-1.11.1.min.js"></script>
 	<script type="text/javascript" src="http://humblesoftware.com/static/js/hsd-flotr2.js"></script>
+	<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
 	<style type="text/css">
 		body {
 			margin: 0px;
@@ -61,23 +62,55 @@
 <div id="content">
 	<?php $view['slots']->output('body') ?>
 
-		<h1><?= $metricName ?></h1>
+	<h1><?= $groupName ?></h1>
 
-	<div class="render" id="editor-render-0" style="position: relative;">
+	<div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
+
+			<ol class="carousel-indicators">
+				<? $count = 0;?>
+				<? foreach($groupMetrics as $val) : ?>
+					<li data-target="#carousel-example-generic" data-slide-to="<?= $count ?>" <?= ($count === 0) ? 'class="active"' : 'class=""'; ?> ></li>
+					<? $count++ ?>
+				<? endforeach ; ?>
+			</ol>
+
+			<div class="carousel-inner" role="listbox">
+				<? $count = 0;?>
+				<? $groupCharts = array(); ?>
+				<? foreach($groupMetrics as $metricName) : ?>
+					<div <?= ($count === 0) ? 'class="item active"' : 'class="item"' ?> >
+						<div class="render" id="<?= 'Chart' . $count;?>" style="position: relative;"></div>
+					</div>
+				<? $groupCharts[] = array('Chart'.$count, $metricName) ?>
+				<? $count++ ?>
+				<? endforeach ; ?>
+			</div>
+
+		<a class="left carousel-control" href="#carousel-example-generic" role="button" data-slide="prev">
+			<span class="glyphicon glyphicon-chevron-left"></span>
+			<span class="sr-only">Previous</span>
+		</a>
+		<a class="right carousel-control" href="#carousel-example-generic" role="button" data-slide="next">
+			<span class="glyphicon glyphicon-chevron-right"></span>
+			<span class="sr-only">Next</span>
+		</a>
+	</div>
+
 	<script>
 		var monolist = monolist || {};
 		monolist.metric = monolist.metric || {};
 		monolist.metric.current = monolist.metric.current || {};
-		monolist.metric.current.name = '<?= $metricName;?>' || {};
 
-		(function basic_time(container) {
+		//(document.getElementById("editor-render-0"), $metricName)
+
+		monolist.metric.groupChart = (function basic_time(container, metricName) {
 
 			function getMetricJson() {
 				var metricData;
 				$.ajaxSetup({
 					async: false
 				});
-				$.getJSON( "/web/app_dev.php/watcher/api/metric/single/" + monolist.metric.current.name, function( data ) {
+				$.getJSON( "/web/app_dev.php/watcher/api/metric/single/" + metricName, function( data ) {
 					metricData = data;
 				});
 
@@ -87,7 +120,7 @@
 
 				return metricData;
 			}
-//			console.log(getMetricJson());
+
 			var metricData = getMetricJson();
 
 			var
@@ -96,11 +129,6 @@
 				options,
 				graph,
 				i, x, o;
-
-			for (i = 0; i < 100; i++) {
-				x = start+(i*1000*3600*24*36.5);
-				d1.push([x, i+Math.random()*30+Math.sin(i/20+Math.random()*2)*20+Math.sin(i/10+Math.random())*10]);
-			}
 
 			options = {
 				xaxis : {
@@ -122,7 +150,7 @@
 					mode : 'x'
 				},
 				HtmlText : false,
-				title : 'Time'
+				title : metricName
 			};
 
 			// Draw graph with default options, overwriting with passed options
@@ -134,16 +162,10 @@
 				// Return a new graph.
 				return Flotr.draw(
 					container,
-//					[
-//						{ data : d1, label : 'Comedy' },
-//						{ data : d2, label : 'Action' }
-//					],
 					metricData,
 					o
 				);
 			}
-
-
 
 			graph = drawGraph();
 
@@ -164,7 +186,11 @@
 				graph = drawGraph();
 			}, 1000*60);
 
-		})(document.getElementById("editor-render-0"));
+		});
+
+		<? foreach($groupCharts as $groupChart) : ?>
+			monolist.metric.groupChart(document.getElementById('<?= $groupChart[0] ?>') , '<?= $groupChart[1] ?>' );
+		<? endforeach ; ?>
 	</script>
 
 </div>

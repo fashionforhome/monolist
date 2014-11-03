@@ -72,7 +72,7 @@
 					<!--groupReports-->
 					<?php if (isset($reports['groups'][$i])): ?>
 						<? $groupName = $reports['groups'][$i];?>
-						<td><a href="/web/app_dev.php/watcher/show/chart/groups/<?= $groupName;?>"><?= $groupName;?></a></td>
+						<td><a href="/web/app_dev.php/watcher/show/chart/group/<?= $groupName;?>"><?= $groupName;?></a></td>
 					<?php else: ?>
 						<td></td>
 					<?php endif; ?>

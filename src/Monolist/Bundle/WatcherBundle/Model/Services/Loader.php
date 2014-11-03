@@ -96,4 +96,14 @@ class Loader {
 	{
 		return $this->services;
 	}
+
+	public function getServiceNames()
+	{
+		$serviceNames = array();
+		foreach ($this->getServices() as $service) {
+			$serviceNames[] = $service->getName();
+		}
+
+		return $serviceNames;
+	}
 } 
