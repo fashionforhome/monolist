@@ -109,9 +109,6 @@ abstract class SingleMetricEntityAbstract implements MetricEntityHandlerInterfac
 	 */
 	public function setContainer($container)
 	{
-		if (empty($container)) {
-			throw new InvalidArgumentException('No container was passed.');
-		}
 		$this->container = $container;
 	}
 

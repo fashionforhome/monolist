@@ -112,11 +112,12 @@
 						var myDate = new Date(x*1000);
 						var hour = (myDate.getHours() > 9) ? myDate.getHours() : '0' + myDate.getHours();
 						var min = (myDate.getMinutes() > 9) ? myDate.getMinutes() : '0' + myDate.getMinutes();
+						var month = (myDate.getMonth() > 9) ? myDate.getMonth() : '0' + myDate.getMonth();
 						string = myDate.getDate() + ' - ' + myDate.getHours() + ':' + min;
 						result = string;
 						return string;
 					},
-					timeMode:'local'        // => For UTC time ('local' for local time).
+					timeMode:'UTC'        // => For UTC time ('local' for local time).
 				},
 				selection : {
 					mode : 'x'

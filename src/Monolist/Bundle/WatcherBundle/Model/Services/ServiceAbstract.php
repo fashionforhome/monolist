@@ -167,7 +167,6 @@ abstract class ServiceAbstract {
 				$dbEntityNamespace = $singleMetricConfig['entity_class'];
 				/** @var \Monolist\Bundle\WatcherBundle\Entity\SingleMetricEntityAbstract $dbEntity */
 				$dbEntity = new $dbEntityNamespace;
-				$dbEntity->setContainer($this->getContainer());
 				$collectorConfig['dbEntity'] = $dbEntity;
 
 				$singleMetricCollectors[] = new SingleMetricCollector($collectorConfig);

@@ -18,6 +18,7 @@ use Monolist\Bundle\WatcherBundle\MonolistWatcherBundle;
 class UnHealthyHostCountRequestor implements RequestorInterface {
 
 	/**
+	 * @param CollectorAccessInterface $collector
 	 * @return int
 	 */
 	public function requestValue(CollectorAccessInterface $collector)
@@ -55,7 +56,9 @@ class UnHealthyHostCountRequestor implements RequestorInterface {
 		));
 
 		$resultArray = $result->get('Datapoints');
-		$lastResult = empty($resultArray) ? null : array_pop($result->get('Datapoints'));
+
+		$lastResult = empty($resultArray) ? null : array_pop($resultArray
+		);
 
 		return intval($lastResult['Maximum']);
 	}

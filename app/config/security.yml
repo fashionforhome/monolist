@@ -58,4 +58,5 @@ security:
         - { path: ^/register, role: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/resetting, role: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/admin/, role: ROLE_ADMIN }
+        - { path: ^/watcher/, role: ROLE_ADMIN }
 #        - { path: ^/overview$, role: ROLE_ADMIN } #still not working
