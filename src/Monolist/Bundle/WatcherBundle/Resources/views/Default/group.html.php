@@ -9,6 +9,7 @@
 	<script type="text/javascript" src="http://humblesoftware.com/static/js/hsd-flotr2.js"></script>
 	<script type="text/javascript" src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
 	<script type="text/javascript" src="/web/bundles/monolistwatcher/js/Chart.js"></script>
+	<script type="text/javascript" src="/web/bundles/monolistwatcher/js/Metric/Requestor.js"></script>
 <!--	<script src="--><?php //echo $view['assets']->getUrl('js/script.js') ?><!--" type="text/javascript"></script>-->
 	<style type="text/css">
 		body {
@@ -102,133 +103,45 @@
 		(function() {
 			"use strict";
 
-			var container, metricName, metricDataArray, metricData;
-
-			function getMetricJson(metricName) {
-				"use strict";
-
-				var metricData;
-				$.ajaxSetup({
-					async: false
-				});
-				$.getJSON( "/web/app_dev.php/watcher/api/metric/single/" + metricName, function( data ) {
-					metricData = data;
-				});
-
-				$.ajaxSetup({
-					async: true
-				});
-
-				return metricData;
-			}
-
+//			var container, metricName, metricDataArray, metricData;
 			<? foreach($groupCharts as $groupChart) : ?>
-				container = document.getElementById('<?= $groupChart[0] ?>');
-				metricName = '<?= $groupChart[1] ?>';
-				metricDataArray = getMetricJson(metricName);
-				metricData = { 'metricName':metricName, 'dataArray': metricDataArray };
-
-				Monolist.Watcher.Chart.drawTimeBased(container, metricData);
+				var container<?= $groupChart[0] ?>, metricName<?= $groupChart[0] ?>,
+					metricDataArray<?= $groupChart[0] ?>, metricData<?= $groupChart[0] ?>;
 			<? endforeach ; ?>
 
-		})();
-	</script>
+			<? foreach($groupCharts as $key => $groupChart) : ?>
+				container<?= $groupChart[0] ?> = document.getElementById('<?= $groupChart[0] ?>');
+				metricName<?= $groupChart[0] ?> = '<?= $groupChart[1] ?>';
+				metricDataArray<?= $groupChart[0] ?> = Monolist.Watcher.Metric.Requestor.requestSingleMetricData(metricName<?= $groupChart[0] ?>);
+				metricData<?= $groupChart[0] ?> = { 'metricName':metricName<?= $groupChart[0] ?>, 'dataArray': metricDataArray<?= $groupChart[0] ?> };
+				<? if ($key === 0) : ?>
+					Monolist.Watcher.Chart.drawTimeBased(container<?= $groupChart[0] ?>, metricData<?= $groupChart[0] ?>);
+				<? endif ; ?>
+				//update the chat every minute
+				setInterval(function() {
+					metricDataArray<?= $groupChart[0] ?> = Monolist.Watcher.Metric.Requestor.requestSingleMetricData(metricName<?= $groupChart[0] ?>);
+					metricData<?= $groupChart[0] ?> = { 'metricName':metricName<?= $groupChart[0] ?>, 'dataArray': metricDataArray<?= $groupChart[0] ?> };
+//					Monolist.Watcher.Chart.drawTimeBased(container<?//= $groupChart[0] ?>//, metricData<?//= $groupChart[0] ?>//);
+				}, 1000*60);
+			<? endforeach ; ?>
 
-	<script>
-//		var monolist = monolist || {};
-//		monolist.metric = monolist.metric || {};
-//		monolist.metric.current = monolist.metric.current || {};
-//
-//		//(document.getElementById("editor-render-0"), $metricName)
-//
-//		monolist.metric.groupChart = (function basic_time(container, metricName) {
-//
-//			function getMetricJson() {
-//				var metricData;
-//				$.ajaxSetup({
-//					async: false
-//				});
-//				$.getJSON( "/web/app_dev.php/watcher/api/metric/single/" + metricName, function( data ) {
-//					metricData = data;
-//				});
-//
-//				$.ajaxSetup({
-//					async: true
-//				});
-//
-//				return metricData;
-//			}
-//
-//			var metricData = getMetricJson();
-//
-//			var
-//				d1    = [],
-//				start = new Date().getTime() - 60*60*24*3,
-//				options,
-//				graph,
-//				i, x, o;
-//
-//			options = {
-//				xaxis : {
-//					mode : 'time',
-//					labelsAngle : 45,
-//					noTicks: 15,
-//					tickFormatter: function(x){
-//						var x = parseInt(x);
-//						var myDate = new Date(x*1000);
-//						var hour = (myDate.getHours() > 9) ? myDate.getHours() : '0' + myDate.getHours();
-//						var min = (myDate.getMinutes() > 9) ? myDate.getMinutes() : '0' + myDate.getMinutes();
-//						string = myDate.getDate() + ' - ' + myDate.getHours() + ':' + min;
-//						result = string;
-//						return string;
-//					},
-//					timeMode:'local'        // => For UTC time ('local' for local time).
-//				},
-//				selection : {
-//					mode : 'x'
-//				},
-//				HtmlText : false,
-//				title : metricName
-//			};
-//
-//			// Draw graph with default options, overwriting with passed options
-//			function drawGraph (opts) {
-//
-//				// Clone the options, so the 'options' variable always keeps intact.
-//				o = Flotr._.extend(Flotr._.clone(options), opts || {});
-//
-//				// Return a new graph.
-//				return Flotr.draw(
-//					container,
-//					metricData,
-//					o
-//				);
-//			}
-//
-//			graph = drawGraph();
-//
-//			Flotr.EventAdapter.observe(container, 'flotr:select', function(area){
-//				// Draw selected area
-//				graph = drawGraph({
-//					xaxis : { min : area.x1, max : area.x2, mode : 'time', labelsAngle : 45 },
-//					yaxis : { min : area.y1, max : area.y2 }
-//				});
-//			});
-//
-//			// When graph is clicked, draw the graph with default area.
-//			Flotr.EventAdapter.observe(container, 'flotr:click', function () { graph = drawGraph(); });
-//
-//			//update the chat every minute
-//			setInterval(function() {
-//				metricData = getMetricJson();
-//				graph = drawGraph();
-//			}, 1000*60);
-//
-//		});
-//
-//		<?// foreach($groupCharts as $groupChart) : ?>
-//			var <?//= $groupChart[0] ?>// = new monolist.metric.groupChart(document.getElementById('<?//= $groupChart[0] ?>//') , '<?//= $groupChart[1] ?>//' );
-//		<?// endforeach ; ?>
+			$('#carousel-example-generic').on('slid', function() {
+				<? foreach($groupCharts as $groupChart) : ?>
+					Monolist.Watcher.Chart.drawTimeBased(container<?= $groupChart[0] ?>, metricData<?= $groupChart[0] ?>);
+				<? endforeach ; ?>
+				console.log('slide');
+			});
+
+		})();
+
+		$('#carousel-example-generic').carousel({
+			interval: 3000
+		});
+
+		$('#carousel-example-generic').on('slid', function() {
+
+			console.log('slide:outer');
+		});
 	</script>
 
 </div>

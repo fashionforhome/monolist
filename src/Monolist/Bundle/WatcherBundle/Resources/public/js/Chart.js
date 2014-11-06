@@ -42,7 +42,7 @@ Monolist.Watcher.Chart.drawTimeBased = function (container, metricData) {
 
 	flotrYaxisDefaultOpt = {
 		min: null,              // => min. value to show, null means set automatically
-		max: 20,             // => max. value to show, null means set automatically
+		max: 100,             // => max. value to show, null means set automatically
 		autoscale: true      // => Turns autoscaling on with true
 	};
 
@@ -78,7 +78,7 @@ Monolist.Watcher.Chart.drawTimeBased = function (container, metricData) {
 		});
 
 		// When graph is clicked, draw the graph with default area.
-		Flotr.EventAdapter.observe(container, 'flotr:click', Flotr.draw(container, dataArray, flotrChartSelectedAreaOptions));
+		Flotr.EventAdapter.observe(container, 'flotr:click', function() {Flotr.draw(container, dataArray, flotrChartDefaultoptions)});
 	} else {
 		throw new Exception('Flotr.js library was not included.');
 	}
