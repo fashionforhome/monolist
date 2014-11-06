@@ -119,6 +119,11 @@
 					},
 					timeMode:'UTC'        // => For UTC time ('local' for local time).
 				},
+				yaxis: {
+					min: null,             // => min. value to show, null means set automatically
+					max: 20,             // => max. value to show, null means set automatically
+					autoscale: true      // => Turns autoscaling on with true
+				},
 				selection : {
 					mode : 'x'
 				},

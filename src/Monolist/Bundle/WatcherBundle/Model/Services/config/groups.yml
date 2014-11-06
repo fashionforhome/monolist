@@ -1,5 +1,5 @@
 MyCustomReportGroupName:
-    - CloudWatchUnHealthyHostCount #full metric name (serviceName + metricName)
+    - CloudWatchLatency #full metric name (serviceName + metricName)
     - CloudWatchUnHealthyHostCount
     - CloudWatchUnHealthyHostCount
 

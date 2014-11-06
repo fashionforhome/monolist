@@ -7,3 +7,13 @@ UnHealthyHostCount:
         - t
         - releasecandidate
     displaySkala: 3 #means between -3 and +3
+
+Latency:
+    requestor_class: \CloudWatch\Metrics\SingleMetric\Requestor\LatencyRequestor
+    entity_class: \Monolist\Bundle\WatcherBundle\Entity\CloudWatch\CloudWatchLatency
+    identifier:
+        - f
+        - s
+#        - t
+#        - releasecandidate
+    displaySkala: 3 #means between -3 and +3
