@@ -1,9 +1,15 @@
 {
-    "name": "symfony/monolist",
-    "license": "",
+    "name": "fashionforhome/monolist",
+    "license": "GPL-3.0",
     "type": "project",
-    "description": "The \"Symfony Standard Edition\" distribution extends Monolist",
-    "autoload": {
+    "description": "Monolist",
+	"authors": [
+		{
+			"name": "Tino Stöckel",
+			"email": "tino.stoeckel@fashionforhome.de"
+		}
+	],
+	"autoload": {
         "psr-0": { "": "src/", "SymfonyStandard": "app/" }
     },
     "require": {
